@@ -1,5 +1,38 @@
 # Substation Energy Potential in Brandenburg
 
+## Table of Contents
+- [Substation Energy Potential in Brandenburg](#substation-energy-potential-in-brandenburg)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Pipeline structure](#pipeline-structure)
+    - [1. Data ingestion](#1-data-ingestion)
+      - [MaStR plant data](#mastr-plant-data)
+      - [OSM substation data](#osm-substation-data)
+    - [2. Data transformation](#2-data-transformation)
+      - [Plant filtering and standardization](#plant-filtering-and-standardization)
+      - [Substation filtering](#substation-filtering)
+    - [3. Energy modeling](#3-energy-modeling)
+    - [4. Spatial matching](#4-spatial-matching)
+      - [GeoDataFrame conversion](#geodataframe-conversion)
+      - [Nearest-neighbor assignment](#nearest-neighbor-assignment)
+      - [Connection lines](#connection-lines)
+    - [5. Aggregation](#5-aggregation)
+    - [6. Export](#6-export)
+    - [7. Visualization](#7-visualization)
+  - [Key design decisions](#key-design-decisions)
+    - [Use of OSM for substations](#use-of-osm-for-substations)
+    - [Nearest-neighbor matching](#nearest-neighbor-matching)
+    - [Early filtering](#early-filtering)
+    - [Use of GeoPandas](#use-of-geopandas)
+    - [Use of Parquet](#use-of-parquet)
+    - [Simple yield model](#simple-yield-model)
+  - [Three analytical layers instead of one merged monster table](#three-analytical-layers-instead-of-one-merged-monster-table)
+  - [Outputs](#outputs)
+  - [How to run](#how-to-run)
+    - [Install dependencies:](#install-dependencies)
+    - [Run the pipeline:](#run-the-pipeline)
+  - [Summary](#summary)
+
 
 ## Overview
 
