@@ -209,7 +209,7 @@ def build_substation_summary(
         ],
         left_on="assigned_substation_id",
         right_on="substation_id",
-        how="left",
+        how="right",
     )
 
     gdf_substation_summary = gpd.GeoDataFrame(
