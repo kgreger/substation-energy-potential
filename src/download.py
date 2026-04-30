@@ -6,6 +6,12 @@ from typing import Any
 import pandas as pd
 import requests
 
+MASTR_URL = (
+    "https://www.marktstammdatenregister.de/MaStR/Einheit/EinheitJson/GetErweiterteOeffentlicheEinheitStromerzeugung?"
+    "sort=&page=1&pageSize=25000&group=&filter=Energietr%C3%A4ger~eq~%272495%2C2497%27~and~Betriebs-Status~eq~%2735%27~"
+    "and~Bundesland~eq~%271400%27&forExport=true"
+)
+
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 
 # Overpass QL query for Brandenburg substations. Includes power=substation (nodes, ways, and relations), but excludes substation=minor_distribution query level.
@@ -108,12 +114,11 @@ def fetch_mastr_data(
     return df
 
 
-def load_or_fetch_mastr_data(base_url: str, parquet_path: str | Path) -> pd.DataFrame:
+def load_or_fetch_mastr_data(parquet_path: str | Path) -> pd.DataFrame:
     """
     Fetch all MaStR data from the web, unless a cached version from today exists locally.
 
     Args:
-        base_url (str): URL with page=1 included (will be replaced dynamically)
         parquet_path (str | Path): path of a locally stored parquet cache
 
     Returns:
@@ -128,13 +133,13 @@ def load_or_fetch_mastr_data(base_url: str, parquet_path: str | Path) -> pd.Data
 
     print("Fetching fresh data from MaStR...")
 
-    df_mastr = fetch_mastr_data(base_url)
+    df_mastr = fetch_mastr_data(MASTR_URL)
 
     df = pd.json_normalize(df_mastr)
 
     df.to_parquet(parquet_path, index=False)
 
-    print(f"Saved fresh plant MaStRdata to {parquet_path}.")
+    print(f"Saved fresh plant MaStR data to {parquet_path}.")
 
     return df
 

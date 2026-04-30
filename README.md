@@ -31,6 +31,7 @@
   - [How to run](#how-to-run)
     - [Install dependencies:](#install-dependencies)
     - [Run the pipeline:](#run-the-pipeline)
+    - [Airflow](#airflow)
   - [Summary](#summary)
 
 
@@ -273,6 +274,23 @@ These outputs support analytical workflows, GIS-based exploration, and visual va
 ### Run the pipeline:
 
 `python main.py` or `uv run main.py`.
+
+### Airflow
+
+There is a DAG to run this pipeline in [Apache Airflow](https://airflow.apache.org/) in the `/dags` subfolder. This can be used in an existing Airflow instance or tested in a standalone test instance.
+
+In order for that test instance to work, run the following:
+```
+export AIRFLOW__CORE__EXECUTOR=LocalExecutor
+export AIRFLOW__CORE__PARALLELISM=2
+export AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG=2
+export AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG=1
+export AIRFLOW_HOME="$PWD"
+```
+
+Then start the instance by `uv run airflow standalone`.
+
+A few minor changes have been made to the original code to accomodate for the DAG to run successfully, this relates mainly to the managament of local files and folders. Note that, while not necessary anymore for the DAG to run, the temporary saving of the `.parquet` files in the `data/` subfolder was kept in the code, intentionally, so as not to break the standalone script `main.py`.
 
 
 ## Summary

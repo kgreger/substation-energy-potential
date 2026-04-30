@@ -12,7 +12,6 @@ from transform import transform_plants_data, transform_substation_data
 
 def run_pipeline():
     # 0. Initialize constants and parameters
-    BASE_URL = "https://www.marktstammdatenregister.de/MaStR/Einheit/EinheitJson/GetErweiterteOeffentlicheEinheitStromerzeugung?sort=&page=1&pageSize=25000&group=&filter=Energietr%C3%A4ger~eq~%272495%2C2497%27~and~Betriebs-Status~eq~%2735%27~and~Bundesland~eq~%271400%27&forExport=true"
     MASTR_PARQUET_PATH = "../data/mastr_brandenburg.parquet"
     OSM_PARQUET_PATH = "../data/osm_brandenburg.parquet"
     GPKG_PATH = "../output/solution.gpkg"
@@ -24,7 +23,7 @@ def run_pipeline():
     MIN_VOLTAGE_V = 20_000
 
     # load or fetch MaStR data for Brandenburg
-    plants_raw = load_or_fetch_mastr_data(BASE_URL, MASTR_PARQUET_PATH)
+    plants_raw = load_or_fetch_mastr_data(MASTR_PARQUET_PATH)
     plants_transformed = transform_plants_data(plants_raw)
     plants_modeled = model_yield(plants_transformed, YIELD_MWH_PER_MW)
 
